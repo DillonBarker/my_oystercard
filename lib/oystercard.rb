@@ -13,4 +13,9 @@ class OysterCard
     @balance += amount
     "topped up #{amount}"
   end
+
+  def deduct(amount)
+    @balance -= amount
+    "#{amount} deducted"
+  end
 end
