@@ -22,5 +22,26 @@ describe OysterCard do
       expect(subject.deduct(20)).to eq("20 deducted")
     end
   end
+  describe '#touch_in' do
+    it 'allows a card to register the start of a journey' do
+      expect(subject.touch_in).to eq("Touch-in successful")
+    end
+  end
 
+  describe '#touch_out' do
+    it 'allows a card to register the end of a journey' do
+      expect(subject.touch_out).to eq("Touch-out successful")
+    end
+  end
+
+  describe '#in_journey?' do
+    it 'marks a card as in-use' do
+      subject.touch_in
+      expect(subject.in_journey?).to be true
+    end
+    it 'marks a card as not in-use' do
+      subject.touch_out
+      expect(subject.in_journey?).to be false
+    end
+  end
 end
