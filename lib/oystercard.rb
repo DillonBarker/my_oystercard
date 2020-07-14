@@ -1,36 +1,43 @@
 class OysterCard
-  attr_reader :balance, :in_use
+  attr_reader :balance, :entry_station, :journey_history
 
   CARD_LIMIT = 90
+  MINIMUM_AMOUNT = 1
 
   def initialize
     @balance = 0
     @in_use = false
+    @journey_history = []
   end
 
   def top_up(amount)
-    raise "card limit: #{CARD_LIMIT} reached" if amount > CARD_LIMIT
+    raise "card limit: #{CARD_LIMIT} reached" if amount + @balance > CARD_LIMIT
 
     @balance += amount
     "topped up #{amount}"
   end
 
-  def deduct(amount)
-    @balance -= amount
-    "#{amount} deducted"
-  end
+  def touch_in(entry_station)
+    raise "Insufficient balance" if @balance < MINIMUM_AMOUNT
 
-  def touch_in
-    @in_use = true
+    @entry_station = entry_station
     "Touch-in successful"
   end
 
-  def touch_out
-    @in_use = false
+  def touch_out(exit_station)
+    deduct(MINIMUM_AMOUNT)
+    @journey_history << { entry: @entry_station, exit: exit_station }
+    @entry_station = nil
     "Touch-out successful"
   end
 
   def in_journey?
-    @in_use
+    @entry_station != nil ? true : false
+  end
+
+  private
+  def deduct(amount)
+    @balance -= amount
+    "#{amount} deducted"
   end
 end
