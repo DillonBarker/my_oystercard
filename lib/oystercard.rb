@@ -19,6 +19,10 @@ class OysterCard
   end
 
   def touch_in(entry_station)
+    if in_journey? == true
+      deduct(@current_journey.fare)
+    end
+
     raise "Insufficient balance" if @balance < MINIMUM_AMOUNT
 
     @current_journey = Journey.new(entry_station)
@@ -27,14 +31,12 @@ class OysterCard
 
   def touch_out(exit_station)
     if in_journey? == false
-      @current_journey = Journey.new(exit_station)
-      deduct(@current_journey.fare)
-    else
+      @current_journey = Journey.new()
+    end
       @current_journey.end_journey(exit_station)
       deduct(@current_journey.fare)
       save_history
       "Touch-out successful"
-    end
   end
 
   def save_history

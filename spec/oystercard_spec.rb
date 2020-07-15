@@ -43,6 +43,13 @@ describe OysterCard do
       subject.touch_in(entry_station)
       expect(subject.current_journey.entry_station).to eq entry_station
     end
+
+    it 'touch in touch in, penalty fare' do
+      subject.top_up(OysterCard::CARD_LIMIT)
+      subject.touch_in(entry_station)
+      expect { subject.touch_in(entry_station) }.to change{ subject.balance }.by(-Journey::PENALTY_FARE)
+
+    end
   end
 
   describe '#touch_out' do
@@ -59,6 +66,11 @@ describe OysterCard do
     end
 
     it 'touch out without touching in' do
+      expect { subject.touch_out(exit_station) }.to change{ subject.balance }.by(-Journey::PENALTY_FARE)
+    end
+
+    it 'touch out touch out' do
+      subject.touch_out(exit_station)
       expect { subject.touch_out(exit_station) }.to change{ subject.balance }.by(-Journey::PENALTY_FARE)
     end
   end
