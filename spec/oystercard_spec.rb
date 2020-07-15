@@ -4,6 +4,7 @@ describe OysterCard do
   let(:entry_station) { double(:entry_station) }
   let(:exit_station) { double(:exit_station) }
 
+
   describe '#initialize' do
     it 'is initialized with a balance of 0' do
       expect(subject.balance).to eq(0)
@@ -39,28 +40,32 @@ describe OysterCard do
       entry_station = double(:entry_station)
       subject.top_up(OysterCard::CARD_LIMIT)
       subject.touch_in(entry_station)
-      expect(subject.entry_station).to eq entry_station
+      expect(subject.current_journey.entry_station).to eq entry_station
     end
   end
 
   describe '#touch_out' do
     it 'allows a card to register the end of a journey' do
+      subject.top_up(OysterCard::CARD_LIMIT)
+      subject.touch_in(entry_station)
       expect(subject.touch_out(exit_station)).to eq("Touch-out successful")
     end
 
     it 'check charge is made on touch out' do
+      subject.top_up(OysterCard::CARD_LIMIT)
+      subject.touch_in(entry_station)
       expect { subject.touch_out(exit_station) }.to change{ subject.balance }.by(-OysterCard::MINIMUM_AMOUNT)
     end
   end
 
   describe '#in_journey?' do
-    it 'marks a card as in-use' do
+    it 'marks a card as in journey' do
       subject.top_up(OysterCard::CARD_LIMIT)
       subject.touch_in(entry_station)
       expect(subject.in_journey?).to be true
     end
 
-    it 'marks a card as not in-use' do
+    it 'marks a card as not in journey' do
       expect(subject.in_journey?).to be false
     end
   end
@@ -70,7 +75,7 @@ describe OysterCard do
       subject.top_up(OysterCard::CARD_LIMIT)
       subject.touch_in(entry_station)
       subject.touch_out(exit_station)
-      expect(subject.journey_history).to eq [{entry: entry_station, exit: exit_station}]
+      expect(subject.journey_history.count).to eq 1
     end
   end
 end
