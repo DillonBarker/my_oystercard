@@ -20,13 +20,11 @@ class OysterCard
     raise "Insufficient balance" if @balance < MINIMUM_AMOUNT
 
     @current_journey = Journey.new(entry_station)
-
     "Touch-in successful"
   end
 
   def touch_out(exit_station)
     deduct(MINIMUM_AMOUNT)
-
     @current_journey.end_journey(exit_station)
     save_history
     "Touch-out successful"

@@ -1,8 +1,3 @@
-# THIS CLASS SHOULD BE RESPONSIBLE FOR:
-#     - starting + finishing journey
-#     - calculating fare
-#     - returning whether or not journey is complete
-
 class Journey
   attr_reader :entry_station, :exit_station
 
@@ -22,7 +17,6 @@ class Journey
   end
 
   def fare
-    @exit_station == nil ? 6 : 1
+    @exit_station == nil ? PENALTY_FARE : MINIMUM_FARE
   end
-
 end
