@@ -1,3 +1,5 @@
+require_relative 'journey'
+
 class OysterCard
   attr_reader :balance, :journey_history, :current_journey
 
@@ -24,10 +26,15 @@ class OysterCard
   end
 
   def touch_out(exit_station)
-    deduct(MINIMUM_AMOUNT)
-    @current_journey.end_journey(exit_station)
-    save_history
-    "Touch-out successful"
+    if in_journey? == false
+      @current_journey = Journey.new(exit_station)
+      deduct(@current_journey.fare)
+    else
+      @current_journey.end_journey(exit_station)
+      deduct(@current_journey.fare)
+      save_history
+      "Touch-out successful"
+    end
   end
 
   def save_history

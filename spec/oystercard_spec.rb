@@ -1,4 +1,5 @@
 require 'oystercard'
+
 describe OysterCard do
 
   let(:entry_station) { double(:entry_station) }
@@ -56,6 +57,10 @@ describe OysterCard do
       subject.touch_in(entry_station)
       expect { subject.touch_out(exit_station) }.to change{ subject.balance }.by(-OysterCard::MINIMUM_AMOUNT)
     end
+
+    it 'touch out without touching in' do
+      expect { subject.touch_out(exit_station) }.to change{ subject.balance }.by(-Journey::PENALTY_FARE)
+    end
   end
 
   describe '#in_journey?' do
@@ -78,4 +83,6 @@ describe OysterCard do
       expect(subject.journey_history.count).to eq 1
     end
   end
+
+
 end
