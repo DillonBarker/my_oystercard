@@ -12,4 +12,8 @@ class Journey
   def end_journey(exit_station)
     @exit_station = exit_station
   end
+
+  def journey_complete?
+    @exit_station != nil ? true : false
+  end
 end

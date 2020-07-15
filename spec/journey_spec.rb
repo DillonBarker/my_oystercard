@@ -18,4 +18,11 @@ let(:exit_station) { double(:exit_station) }
       expect(journey.exit_station).to eq exit_station
     end
   end
+
+  describe '#journey_complete?' do
+    it 'is the journey complete, returns false' do
+      journey = Journey.new(entry_station)
+      expect(journey.journey_complete?).to be false
+    end
+  end
 end
