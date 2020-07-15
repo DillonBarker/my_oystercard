@@ -24,5 +24,24 @@ let(:exit_station) { double(:exit_station) }
       journey = Journey.new(entry_station)
       expect(journey.journey_complete?).to be false
     end
+
+    it 'is the journey complete, returns true' do
+      journey = Journey.new(entry_station)
+      journey.end_journey(exit_station)
+      expect(journey.journey_complete?).to be true
+    end
+  end
+
+  describe '#fare' do
+    it 'returns penalty fare of 6, if no entry or exit' do
+      journey = Journey.new(entry_station)
+      expect(journey.fare).to eq Journey::PENALTY_FARE
+    end
+
+    it 'returns minimum fare of 1, when there is both and entry and exit' do
+      journey = Journey.new(entry_station)
+      journey.end_journey(exit_station)
+      expect(journey.fare).to eq Journey::MINIMUM_FARE
+    end
   end
 end
