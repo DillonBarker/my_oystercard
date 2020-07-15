@@ -26,9 +26,14 @@ class OysterCard
 
   def touch_out(exit_station)
     deduct(MINIMUM_AMOUNT)
-    @journey_history << { entry: @entry_station, exit: exit_station }
+    @exit_station = exit_station
+    save_history
     @entry_station = nil
     "Touch-out successful"
+  end
+
+  def save_history
+    @journey_history << { entry: @entry_station, exit: @exit_station }
   end
 
   def in_journey?
