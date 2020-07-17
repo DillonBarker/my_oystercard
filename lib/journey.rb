@@ -1,3 +1,5 @@
+require_relative 'station'
+
 class Journey
   attr_accessor :entry_station, :exit_station
 
@@ -13,10 +15,10 @@ class Journey
   end
 
   def journey_complete?
-    @exit_station != nil ? true : false
+    !!@entry_station && !!@exit_station
   end
 
   def fare
-    @entry_station == nil || @exit_station == nil ? PENALTY_FARE : MINIMUM_FARE
+    journey_complete? ? (MINIMUM_FARE + (@exit_station.zone - @entry_station.zone)) : PENALTY_FARE
   end
 end

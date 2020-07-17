@@ -39,12 +39,6 @@ describe OysterCard do
 
   describe '#touch_out' do
 
-    it 'check charge is made on touch out' do
-      top_up
-      subject.touch_in(entry_station)
-      expect { subject.touch_out(exit_station) }.to change{ subject.balance }.by(-OysterCard::MINIMUM_AMOUNT)
-    end
-
     it 'touch out without touching in' do
       top_up
       expect { subject.touch_out(exit_station) }.to change{ subject.balance }.by(-Journey::PENALTY_FARE)
