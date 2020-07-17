@@ -10,10 +10,6 @@ describe OysterCard do
     it 'is initialized with a balance of 0' do
       expect(subject.balance).to eq(0)
     end
-
-    it 'is initialized with an empty journey_history array' do
-      expect(subject.journey_history).to eq([])
-    end
   end
 
   describe '#top_up(amount)' do

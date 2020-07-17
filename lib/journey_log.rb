@@ -23,6 +23,7 @@ class JourneyLog
     @journeys.dup
   end
 
+private
   def this_journey
     @this_journey ||= journey_class.new
   end
