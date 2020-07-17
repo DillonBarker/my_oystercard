@@ -39,5 +39,13 @@ describe JourneyLog do
       subject.finish(exit_station)
       expect(subject.journeys).to eq([journey, journey])
     end
+
+    it 'does not allow external changes' do
+      allow(journey).to receive(:exit_station=).with(exit_station)
+      subject.start(entry_station)
+      subject.finish(exit_station)
+      subject.journeys.pop
+      expect(subject.journeys.count).to eq 1
+    end
   end
 end
